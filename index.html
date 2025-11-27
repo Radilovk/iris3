@@ -64,18 +64,49 @@
 
         <div class="row">
           <div>
+            <label>Режим на връзка</label>
+            <select id="mode">
+              <option value="proxy">Локален proxy (препоръчително)</option>
+              <option value="direct">Директно към API (браузър)</option>
+            </select>
+            <div class="small">При директен режим въведи ключове по-долу и можеш да отвориш файла с двойно кликване.</div>
+          </div>
+          <div>
             <label>Доставчик</label>
             <select id="provider">
               <option value="openai">OpenAI (чрез /api/openai)</option>
               <option value="gemini">Gemini (чрез /api/gemini)</option>
             </select>
-            <div class="small">Ключовете са в <span class="mono">.env</span> (не в браузъра).</div>
+            <div class="small">Proxy: ключовете са в <span class="mono">.env</span>. Директен режим: попълни полетата по-долу.</div>
           </div>
           <div>
             <label>Модел</label>
             <input id="model" type="text" value="gpt-4o-mini" />
             <div class="small">Gemini пример: <span class="mono">gemini-2.0-flash</span></div>
           </div>
+        </div>
+
+        <div style="height:10px"></div>
+
+        <div class="row" id="keysRow" style="display:none">
+          <div>
+            <label>OpenAI API key</label>
+            <input id="openaiKey" type="text" placeholder="sk-..." />
+            <div class="small">Използва се само в директен режим.</div>
+          </div>
+          <div>
+            <label>Gemini API key</label>
+            <input id="geminiKey" type="text" placeholder="AIza..." />
+            <div class="small">Използва се само в директен режим.</div>
+          </div>
+        </div>
+
+        <div id="rememberRow" class="small" style="display:none; margin-top:6px">
+          <label style="display:flex;align-items:center;gap:8px">
+            <input id="rememberKeys" type="checkbox" />
+            Запомни режима и ключовете на този компютър
+          </label>
+          <div style="margin-left:22px;color:#7f92ad">Ключовете се пазят само локално в браузъра.</div>
         </div>
 
         <div style="height:10px"></div>
