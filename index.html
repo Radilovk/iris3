@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="bg">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Iris Report v9 (Local Proxy)</title>
+  <style>
+    :root{color-scheme:dark}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif;background:#0b0f14;color:#e8eef6}
+    header{padding:18px 20px;border-bottom:1px solid #1f2a37;background:#0b111a;position:sticky;top:0;z-index:10}
+    h1{font-size:16px;margin:0 0 6px 0}
+    .sub{font-size:12px;color:#9fb0c5}
+    main{padding:16px 20px;max-width:1100px;margin:0 auto}
+    .grid{display:grid;gap:14px;grid-template-columns:1fr}
+    @media(min-width:980px){.grid{grid-template-columns:1.1fr 0.9fr}}
+    .card{border:1px solid #1f2a37;background:#0b111a;border-radius:16px;padding:14px}
+    .row{display:grid;gap:10px;grid-template-columns:1fr}
+    @media(min-width:720px){.row{grid-template-columns:1fr 1fr}}
+    label{display:block;font-size:12px;color:#a9bbd1;margin:0 0 6px}
+    input[type="text"], input[type="number"], select, textarea{
+      width:100%; box-sizing:border-box; padding:10px 11px;
+      border-radius:12px; border:1px solid #223044;
+      background:#0a0f16; color:#e8eef6; outline:none;
+    }
+    textarea{min-height:120px;resize:vertical}
+    input[type="file"]{width:100%; color:#a9bbd1}
+    button{
+      width:100%; padding:12px 12px; border-radius:14px;
+      border:1px solid #2b3b55; background:#122033; color:#e8eef6;
+      cursor:pointer; font-weight:600;
+    }
+    button:hover{background:#152845}
+    button:disabled{opacity:.55;cursor:not-allowed}
+    .pill{display:inline-block;padding:4px 8px;border:1px solid #243247;border-radius:999px;font-size:12px;color:#a9bbd1}
+    pre{white-space:pre-wrap;word-break:break-word;margin:0;font-size:12px;line-height:1.45}
+    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace}
+    .status{font-size:12px;color:#a9bbd1}
+    .small{font-size:12px;color:#9fb0c5}
+    .split{display:flex;gap:10px;flex-wrap:wrap}
+    .split > *{flex:1;min-width:180px}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Iris Report v9 — локален режим (proxy)</h1>
+    <div class="sub">Стартирай със <span class="pill mono">node server.mjs</span>, после отвори <span class="pill mono">http://localhost:5173/</span></div>
+  </header>
+
+  <main>
+    <div class="grid">
+      <section class="card">
+        <div class="row">
+          <div>
+            <label>Десен ирис (R)</label>
+            <input id="imgR" type="file" accept="image/*" />
+          </div>
+          <div>
+            <label>Ляв ирис (L)</label>
+            <input id="imgL" type="file" accept="image/*" />
+          </div>
+        </div>
+
+        <div style="height:10px"></div>
+
+        <div class="row">
+          <div>
+            <label>Доставчик</label>
+            <select id="provider">
+              <option value="openai">OpenAI (чрез /api/openai)</option>
+              <option value="gemini">Gemini (чрез /api/gemini)</option>
+            </select>
+            <div class="small">Ключовете са в <span class="mono">.env</span> (не в браузъра).</div>
+          </div>
+          <div>
+            <label>Модел</label>
+            <input id="model" type="text" value="gpt-4o-mini" />
+            <div class="small">Gemini пример: <span class="mono">gemini-2.0-flash</span></div>
+          </div>
+        </div>
+
+        <div style="height:10px"></div>
+
+        <div class="row">
+          <div>
+            <label>Възраст</label>
+            <input id="age" type="number" min="0" max="120" value="30"/>
+          </div>
+          <div>
+            <label>Пол</label>
+            <select id="gender">
+              <option value="male">мъж</option>
+              <option value="female">жена</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="height:10px"></div>
+
+        <div class="row">
+          <div>
+            <label>Оплаквания (свободен текст)</label>
+            <textarea id="complaints" placeholder="кратко: храносмилане, сън, стрес, кожа, алергии..."></textarea>
+          </div>
+          <div>
+            <label>Навици / диета / стрес / сън</label>
+            <textarea id="habits" placeholder="диета, кофеин, алкохол, пушене, активност, сън (часове/качество), стрес..."></textarea>
+          </div>
+        </div>
+
+        <div style="height:10px"></div>
+
+        <div class="split">
+          <button id="runBtn">Пусни анализ</button>
+          <button id="downloadBtn" disabled>Свали JSON</button>
+        </div>
+        <div style="height:8px"></div>
+        <div id="runStatus" class="status">Готов.</div>
+      </section>
+
+      <section class="card">
+        <div class="split">
+          <div class="pill">Лог</div>
+          <div class="pill">Резултат (JSON)</div>
+        </div>
+        <div style="height:10px"></div>
+        <pre id="log" class="mono"></pre>
+        <div style="height:12px"></div>
+        <pre id="out" class="mono"></pre>
+      </section>
+    </div>
+  </main>
+
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
